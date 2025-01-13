@@ -416,9 +416,13 @@ class _SourceViewState extends State<SourceView> {
       ),
       SMFormItem(label: 'explore json', child: exploreJsonInput),
     ];
-    var listView = ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-      children: children,
+    var listView = Focus(
+      focusNode: FocusNode(),
+      autofocus: true,
+      child: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        children: children,
+      ),
     );
     return Card(child: listView);
   }

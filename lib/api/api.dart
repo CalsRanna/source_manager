@@ -1,10 +1,17 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:source_manager/model/source.dart';
 
 class Api {
-  static const String baseUrl = "http://127.0.0.1:8080";
+  String get baseUrl {
+    if (kDebugMode) return 'http://192.168.31.207:8080';
+    var uri = Uri.base;
+    var host = uri.host;
+    var port = uri.port;
+    return 'http://$host:$port';
+  }
 
   Future<List<Source>> getSources() async {
     var url = Uri.parse('$baseUrl/api/source');

@@ -84,7 +84,12 @@ class _SourcePageState extends State<SourcePage> {
       Expanded(child: sourceListView),
     ];
     var leading = Column(children: leadingChildren);
-    var toolbar = Toolbar(onCreate: createSource, onDebug: debugSource);
+    var toolbar = Toolbar(
+      onCreate: createSource,
+      onDebug: debugSource,
+      onStore: storeSource,
+      onDelete: destroySource,
+    );
     var sourceView = _SourceView(id: id);
     var contentChildren = [
       toolbar,
@@ -118,6 +123,10 @@ class _SourcePageState extends State<SourcePage> {
       id = 0;
     });
   }
+
+  void storeSource() {}
+
+  void destroySource() {}
 
   void handleSelected(int index, int id) {
     setState(() {
