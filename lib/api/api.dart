@@ -6,7 +6,7 @@ import 'package:source_manager/model/source.dart';
 
 class Api {
   String get baseUrl {
-    if (kDebugMode) return 'http://192.168.31.207:8080';
+    if (kDebugMode) return 'http://192.168.31.181:8080';
     var uri = Uri.base;
     var host = uri.host;
     var port = uri.port;
