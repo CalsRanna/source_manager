@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:source_manager/page/source.dart';
+import 'package:source_manager/di.dart';
+import 'package:source_manager/page/source_page.dart';
+
+final globalKey = GlobalKey<NavigatorState>();
 
 void main() {
+  DI().ensureInitialized();
   runApp(ProviderScope(child: const SourceManagerApp()));
 }
 
@@ -17,6 +21,7 @@ class SourceManagerApp extends StatelessWidget {
     );
     return MaterialApp(
       home: const SourcePage(),
+      navigatorKey: globalKey,
       theme: ThemeData(colorScheme: colorScheme),
       title: 'Source Manager',
     );

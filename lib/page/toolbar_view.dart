@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Toolbar extends StatelessWidget {
+class ToolbarView extends StatelessWidget {
   final void Function()? onCreate;
   final void Function()? onDebug;
   final void Function()? onDelete;
   final void Function()? onStore;
-  const Toolbar({
+  const ToolbarView({
     super.key,
     this.onCreate,
     this.onDebug,

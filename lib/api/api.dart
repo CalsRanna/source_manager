@@ -6,7 +6,7 @@ import 'package:source_manager/model/source.dart';
 
 class Api {
   String get baseUrl {
-    if (kDebugMode) return 'http://192.168.31.181:8080';
+    if (kDebugMode) return 'http://192.168.31.180:8080';
     var uri = Uri.base;
     var host = uri.host;
     var port = uri.port;
@@ -25,5 +25,32 @@ class Api {
     var response = await http.get(url);
     var data = jsonDecode(response.body);
     return Source.fromJson(data);
+  }
+
+  Future<void> storeSource(Source source) async {
+    var url = Uri.parse('$baseUrl/api/source');
+    var response = await http.post(url, body: jsonEncode(source.toJson()));
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      var data = jsonDecode(response.body);
+      throw Exception('[${response.statusCode}] ${data['message']}');
+    }
+  }
+
+  Future<void> updateSource(Source source) async {
+    var url = Uri.parse('$baseUrl/api/source/${source.id}');
+    var response = await http.put(url, body: jsonEncode(source.toJson()));
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      var data = jsonDecode(response.body);
+      throw Exception('[${response.statusCode}] ${data['message']}');
+    }
+  }
+
+  Future<void> destroySource(int id) async {
+    var url = Uri.parse('$baseUrl/api/source/$id');
+    var response = await http.delete(url);
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      var data = jsonDecode(response.body);
+      throw Exception('[${response.statusCode}] ${data['message']}');
+    }
   }
 }

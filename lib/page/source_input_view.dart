@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:source_manager/model/source.dart';
+import 'package:source_manager/page/toolbar_view.dart';
 import 'package:source_manager/widget/form_item.dart';
 import 'package:source_manager/widget/input.dart';
 import 'package:source_manager/widget/select.dart';
 
-class SourceView extends StatefulWidget {
-  final Source? source;
-  const SourceView({super.key, this.source});
+class SourceInputView extends StatefulWidget {
+  final void Function()? onCreate;
+  final void Function()? onDebug;
+  final void Function()? onDelete;
+  final void Function(Source)? onStore;
+  final Source source;
+  const SourceInputView({
+    super.key,
+    this.onCreate,
+    this.onDebug,
+    this.onDelete,
+    this.onStore,
+    required this.source,
+  });
 
   @override
-  State<SourceView> createState() => _SourceViewState();
+  State<SourceInputView> createState() => _SourceInputViewState();
 }
 
-class _SourceViewState extends State<SourceView> {
+class _SourceInputViewState extends State<SourceInputView> {
   final idController = TextEditingController();
   final nameController = TextEditingController();
   final urlController = TextEditingController();
@@ -59,60 +71,65 @@ class _SourceViewState extends State<SourceView> {
   @override
   void initState() {
     super.initState();
-    idController.text = widget.source?.id.toString() ?? '';
-    nameController.text = widget.source?.name ?? '';
-    urlController.text = widget.source?.url ?? '';
-    enabledController.text = (widget.source?.enabled ?? true).toString();
-    exploreEnabledController.text =
-        (widget.source?.exploreEnabled ?? false).toString();
-    typeController.text = widget.source?.type ?? 'book';
-    commentController.text = widget.source?.comment ?? '';
-    headerController.text = widget.source?.header ?? '';
-    charsetController.text = widget.source?.charset ?? 'utf8';
-    searchUrlController.text = widget.source?.searchUrl ?? '';
-    searchMethodController.text = widget.source?.searchMethod ?? 'get';
-    searchBooksController.text = widget.source?.searchBooks ?? '';
-    searchNameController.text = widget.source?.searchName ?? '';
-    searchAuthorController.text = widget.source?.searchAuthor ?? '';
-    searchCategoryController.text = widget.source?.searchCategory ?? '';
-    searchWordCountController.text = widget.source?.searchWordCount ?? '';
-    searchIntroductionController.text = widget.source?.searchIntroduction ?? '';
-    searchCoverController.text = widget.source?.searchCover ?? '';
-    searchInformationUrlController.text =
-        widget.source?.searchInformationUrl ?? '';
-    searchLatestChapterController.text =
-        widget.source?.searchLatestChapter ?? '';
-    informationMethodController.text =
-        widget.source?.informationMethod ?? 'get';
-    informationNameController.text = widget.source?.informationName ?? '';
-    informationAuthorController.text = widget.source?.informationAuthor ?? '';
-    informationCategoryController.text =
-        widget.source?.informationCategory ?? '';
-    informationWordCountController.text =
-        widget.source?.informationWordCount ?? '';
+    _initControllers();
+  }
+
+  @override
+  void didUpdateWidget(covariant SourceInputView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.source != oldWidget.source) {
+      _initControllers();
+    }
+  }
+
+  void _initControllers() {
+    idController.text = widget.source.id.toString();
+    nameController.text = widget.source.name;
+    urlController.text = widget.source.url;
+    enabledController.text = widget.source.enabled.toString();
+    exploreEnabledController.text = widget.source.exploreEnabled.toString();
+    typeController.text = widget.source.type;
+    commentController.text = widget.source.comment;
+    headerController.text = widget.source.header;
+    charsetController.text = widget.source.charset;
+    searchUrlController.text = widget.source.searchUrl;
+    searchMethodController.text = widget.source.searchMethod;
+    searchBooksController.text = widget.source.searchBooks;
+    searchNameController.text = widget.source.searchName;
+    searchAuthorController.text = widget.source.searchAuthor;
+    searchCategoryController.text = widget.source.searchCategory;
+    searchWordCountController.text = widget.source.searchWordCount;
+    searchIntroductionController.text = widget.source.searchIntroduction;
+    searchCoverController.text = widget.source.searchCover;
+    searchInformationUrlController.text = widget.source.searchInformationUrl;
+    searchLatestChapterController.text = widget.source.searchLatestChapter;
+    informationMethodController.text = widget.source.informationMethod;
+    informationNameController.text = widget.source.informationName;
+    informationAuthorController.text = widget.source.informationAuthor;
+    informationCategoryController.text = widget.source.informationCategory;
+    informationWordCountController.text = widget.source.informationWordCount;
     informationLatestChapterController.text =
-        widget.source?.informationLatestChapter ?? '';
+        widget.source.informationLatestChapter;
     informationIntroductionController.text =
-        widget.source?.informationIntroduction ?? '';
-    informationCoverController.text = widget.source?.informationCover ?? '';
+        widget.source.informationIntroduction;
+    informationCoverController.text = widget.source.informationCover;
     informationCatalogueUrlController.text =
-        widget.source?.informationCatalogueUrl ?? '';
-    catalogueMethodController.text = widget.source?.catalogueMethod ?? 'get';
-    catalogueChaptersController.text = widget.source?.catalogueChapters ?? '';
-    catalogueNameController.text = widget.source?.catalogueName ?? '';
-    catalogueUrlController.text = widget.source?.catalogueUrl ?? '';
-    catalogueUpdatedAtController.text = widget.source?.catalogueUpdatedAt ?? '';
-    cataloguePaginationController.text =
-        widget.source?.cataloguePagination ?? '';
+        widget.source.informationCatalogueUrl;
+    catalogueMethodController.text = widget.source.catalogueMethod;
+    catalogueChaptersController.text = widget.source.catalogueChapters;
+    catalogueNameController.text = widget.source.catalogueName;
+    catalogueUrlController.text = widget.source.catalogueUrl;
+    catalogueUpdatedAtController.text = widget.source.catalogueUpdatedAt;
+    cataloguePaginationController.text = widget.source.cataloguePagination;
     cataloguePaginationValidationController.text =
-        widget.source?.cataloguePaginationValidation ?? '';
-    cataloguePresetController.text = widget.source?.cataloguePreset ?? '';
-    contentMethodController.text = widget.source?.contentMethod ?? 'get';
-    contentContentController.text = widget.source?.contentContent ?? '';
-    contentPaginationController.text = widget.source?.contentPagination ?? '';
+        widget.source.cataloguePaginationValidation;
+    cataloguePresetController.text = widget.source.cataloguePreset;
+    contentMethodController.text = widget.source.contentMethod;
+    contentContentController.text = widget.source.contentContent;
+    contentPaginationController.text = widget.source.contentPagination;
     contentPaginationValidationController.text =
-        widget.source?.contentPaginationValidation ?? '';
-    exploreJsonController.text = widget.source?.exploreJson ?? '';
+        widget.source.contentPaginationValidation;
+    exploreJsonController.text = widget.source.exploreJson;
   }
 
   @override
@@ -424,51 +441,66 @@ class _SourceViewState extends State<SourceView> {
         children: children,
       ),
     );
-    return Card(child: listView);
+    var sourceView = Card(child: listView);
+    var toolbar = ToolbarView(
+      onCreate: widget.onCreate,
+      onDebug: widget.onDebug,
+      onStore: handleStore,
+      onDelete: widget.onDelete,
+    );
+    return Column(children: [
+      toolbar,
+      const SizedBox(height: 16),
+      Expanded(child: sourceView),
+    ]);
   }
 
-  void createSource() {
-    idController.text = '0';
-    nameController.text = 'New Source';
-    urlController.text = 'https://example.com';
-    enabledController.text = 'true';
-    exploreEnabledController.text = 'true';
-    typeController.text = 'book';
-    commentController.text = 'New Source';
-    headerController.text = '';
-    charsetController.text = 'utf8';
-    searchUrlController.text = '';
-    searchMethodController.text = 'get';
-    searchBooksController.text = '';
-    searchNameController.text = '';
-    searchAuthorController.text = '';
-    searchCategoryController.text = '';
-    searchWordCountController.text = '';
-    searchIntroductionController.text = '';
-    searchCoverController.text = '';
-    searchInformationUrlController.text = '';
-    searchLatestChapterController.text = '';
-    informationMethodController.text = 'get';
-    informationNameController.text = '';
-    informationAuthorController.text = '';
-    informationCategoryController.text = '';
-    informationWordCountController.text = '';
-    informationLatestChapterController.text = '';
-    informationIntroductionController.text = '';
-    informationCoverController.text = '';
-    informationCatalogueUrlController.text = '';
-    catalogueMethodController.text = 'get';
-    catalogueChaptersController.text = '';
-    catalogueNameController.text = '';
-    catalogueUrlController.text = '';
-    catalogueUpdatedAtController.text = '';
-    cataloguePaginationController.text = '';
-    cataloguePaginationValidationController.text = '';
-    cataloguePresetController.text = '';
-    contentMethodController.text = 'get';
-    contentContentController.text = '';
-    contentPaginationController.text = '';
-    contentPaginationValidationController.text = '';
-    exploreJsonController.text = '';
+  void handleStore() {
+    var updatedSource = widget.source.copyWith(
+      id: int.parse(idController.text),
+      name: nameController.text,
+      url: urlController.text,
+      enabled: enabledController.text == 'true',
+      exploreEnabled: exploreEnabledController.text == 'true',
+      type: typeController.text,
+      comment: commentController.text,
+      header: headerController.text,
+      charset: charsetController.text,
+      searchUrl: searchUrlController.text,
+      searchMethod: searchMethodController.text,
+      searchBooks: searchBooksController.text,
+      searchName: searchNameController.text,
+      searchAuthor: searchAuthorController.text,
+      searchCategory: searchCategoryController.text,
+      searchWordCount: searchWordCountController.text,
+      searchIntroduction: searchIntroductionController.text,
+      searchCover: searchCoverController.text,
+      searchInformationUrl: searchInformationUrlController.text,
+      searchLatestChapter: searchLatestChapterController.text,
+      informationMethod: informationMethodController.text,
+      informationName: informationNameController.text,
+      informationAuthor: informationAuthorController.text,
+      informationCategory: informationCategoryController.text,
+      informationWordCount: informationWordCountController.text,
+      informationLatestChapter: informationLatestChapterController.text,
+      informationIntroduction: informationIntroductionController.text,
+      informationCover: informationCoverController.text,
+      informationCatalogueUrl: informationCatalogueUrlController.text,
+      catalogueMethod: catalogueMethodController.text,
+      catalogueChapters: catalogueChaptersController.text,
+      catalogueName: catalogueNameController.text,
+      catalogueUrl: catalogueUrlController.text,
+      catalogueUpdatedAt: catalogueUpdatedAtController.text,
+      cataloguePagination: cataloguePaginationController.text,
+      cataloguePaginationValidation:
+          cataloguePaginationValidationController.text,
+      cataloguePreset: cataloguePresetController.text,
+      contentMethod: contentMethodController.text,
+      contentContent: contentContentController.text,
+      contentPagination: contentPaginationController.text,
+      contentPaginationValidation: contentPaginationValidationController.text,
+      exploreJson: exploreJsonController.text,
+    );
+    widget.onStore?.call(updatedSource);
   }
 }
