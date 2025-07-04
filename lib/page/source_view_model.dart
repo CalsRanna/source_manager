@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:signals/signals.dart';
 import 'package:source_manager/api/api.dart';
 import 'package:source_manager/model/source.dart';
+import 'package:source_manager/page/source_page.dart';
 import 'package:source_manager/util/dialog_util.dart';
 import 'package:source_manager/util/toast_util.dart';
 
@@ -21,6 +22,10 @@ class SourceViewModel {
 
   void createSource() {
     index.value = sources.value.length;
+  }
+
+  void debugSource() {
+    scaffoldKey.currentState!.openEndDrawer();
   }
 
   Future<void> destroySource(BuildContext context) async {
@@ -43,6 +48,9 @@ class SourceViewModel {
 
   Future<void> initSignals() async {
     sources.value = await Api().getSources();
+    if (sources.value.isNotEmpty) {
+      index.value = 0;
+    }
   }
 
   void selectSource(int index) {
