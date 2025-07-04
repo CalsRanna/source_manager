@@ -17,7 +17,7 @@ class SMSelect extends StatelessWidget {
                 onPressed: () {
                   controller.text = option.value;
                 },
-                child: Text(option.label),
+                child: SizedBox(width: 100, child: Text(option.label)),
               ),
             )
             .toList(),

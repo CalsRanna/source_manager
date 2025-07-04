@@ -188,13 +188,19 @@ class _SourceInputViewState extends State<SourceInputView> {
     );
     var nameInput = SMInput(controller: nameController, placeholder: 'name');
     var urlInput = SMInput(controller: urlController, placeholder: 'url');
-    var enabledInput = SMInput(
+    var enabledInput = SMSelect(
       controller: enabledController,
-      placeholder: 'enabled',
+      options: [
+        SMSelectOption(label: 'true', value: 'true'),
+        SMSelectOption(label: 'false', value: 'false'),
+      ],
     );
-    var exploreEnabledInput = SMInput(
+    var exploreEnabledInput = SMSelect(
       controller: exploreEnabledController,
-      placeholder: 'explore enabled',
+      options: [
+        SMSelectOption(label: 'true', value: 'true'),
+        SMSelectOption(label: 'false', value: 'false'),
+      ],
     );
     var typeInput = SMSelect(
       controller: typeController,
