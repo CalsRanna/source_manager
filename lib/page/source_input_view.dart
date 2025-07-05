@@ -5,12 +5,57 @@ import 'package:source_manager/widget/form_item.dart';
 import 'package:source_manager/widget/input.dart';
 import 'package:source_manager/widget/select.dart';
 
-class SourceInputView extends StatefulWidget {
+class SourceInputView extends StatelessWidget {
   final void Function()? onCreate;
   final void Function()? onDebug;
   final void Function()? onDelete;
   final void Function(Source)? onStore;
   final Source source;
+
+  final TextEditingController idController;
+
+  final TextEditingController nameController;
+  final TextEditingController urlController;
+  final TextEditingController enabledController;
+  final TextEditingController exploreEnabledController;
+  final TextEditingController typeController;
+  final TextEditingController commentController;
+  final TextEditingController headerController;
+  final TextEditingController charsetController;
+  final TextEditingController searchUrlController;
+  final TextEditingController searchMethodController;
+  final TextEditingController searchBooksController;
+  final TextEditingController searchNameController;
+  final TextEditingController searchAuthorController;
+  final TextEditingController searchCategoryController;
+  final TextEditingController searchWordCountController;
+  final TextEditingController searchIntroductionController;
+  final TextEditingController searchCoverController;
+  final TextEditingController searchInformationUrlController;
+  final TextEditingController searchLatestChapterController;
+  final TextEditingController informationMethodController;
+  final TextEditingController informationNameController;
+  final TextEditingController informationAuthorController;
+  final TextEditingController informationCategoryController;
+  final TextEditingController informationWordCountController;
+  final TextEditingController informationLatestChapterController;
+  final TextEditingController informationIntroductionController;
+  final TextEditingController informationCoverController;
+  final TextEditingController informationCatalogueUrlController;
+  final TextEditingController catalogueMethodController;
+  final TextEditingController catalogueChaptersController;
+  final TextEditingController catalogueNameController;
+  final TextEditingController catalogueUrlController;
+  final TextEditingController catalogueUpdatedAtController;
+  final TextEditingController cataloguePaginationController;
+  final TextEditingController cataloguePaginationValidationController;
+  final TextEditingController cataloguePresetController;
+  final TextEditingController contentMethodController;
+  final TextEditingController contentContentController;
+  final TextEditingController contentPaginationController;
+  final TextEditingController contentPaginationValidationController;
+  final TextEditingController exploreJsonController;
+
   const SourceInputView({
     super.key,
     this.onCreate,
@@ -18,166 +63,49 @@ class SourceInputView extends StatefulWidget {
     this.onDelete,
     this.onStore,
     required this.source,
+    required this.idController,
+    required this.nameController,
+    required this.urlController,
+    required this.enabledController,
+    required this.exploreEnabledController,
+    required this.typeController,
+    required this.commentController,
+    required this.headerController,
+    required this.charsetController,
+    required this.searchUrlController,
+    required this.searchMethodController,
+    required this.searchBooksController,
+    required this.searchNameController,
+    required this.searchAuthorController,
+    required this.searchCategoryController,
+    required this.searchWordCountController,
+    required this.searchIntroductionController,
+    required this.searchCoverController,
+    required this.searchInformationUrlController,
+    required this.searchLatestChapterController,
+    required this.informationMethodController,
+    required this.informationNameController,
+    required this.informationAuthorController,
+    required this.informationCategoryController,
+    required this.informationWordCountController,
+    required this.informationLatestChapterController,
+    required this.informationIntroductionController,
+    required this.informationCoverController,
+    required this.informationCatalogueUrlController,
+    required this.catalogueMethodController,
+    required this.catalogueChaptersController,
+    required this.catalogueNameController,
+    required this.catalogueUrlController,
+    required this.catalogueUpdatedAtController,
+    required this.cataloguePaginationController,
+    required this.cataloguePaginationValidationController,
+    required this.cataloguePresetController,
+    required this.contentMethodController,
+    required this.contentContentController,
+    required this.contentPaginationController,
+    required this.contentPaginationValidationController,
+    required this.exploreJsonController,
   });
-
-  @override
-  State<SourceInputView> createState() => _SourceInputViewState();
-}
-
-class _SourceInputViewState extends State<SourceInputView> {
-  final idController = TextEditingController();
-  final nameController = TextEditingController();
-  final urlController = TextEditingController();
-  final enabledController = TextEditingController();
-  final exploreEnabledController = TextEditingController();
-  final typeController = TextEditingController();
-  final commentController = TextEditingController();
-  final headerController = TextEditingController();
-  final charsetController = TextEditingController();
-  final searchUrlController = TextEditingController();
-  final searchMethodController = TextEditingController();
-  final searchBooksController = TextEditingController();
-  final searchNameController = TextEditingController();
-  final searchAuthorController = TextEditingController();
-  final searchCategoryController = TextEditingController();
-  final searchWordCountController = TextEditingController();
-  final searchIntroductionController = TextEditingController();
-  final searchCoverController = TextEditingController();
-  final searchInformationUrlController = TextEditingController();
-  final searchLatestChapterController = TextEditingController();
-  final informationMethodController = TextEditingController();
-  final informationNameController = TextEditingController();
-  final informationAuthorController = TextEditingController();
-  final informationCategoryController = TextEditingController();
-  final informationWordCountController = TextEditingController();
-  final informationLatestChapterController = TextEditingController();
-  final informationIntroductionController = TextEditingController();
-  final informationCoverController = TextEditingController();
-  final informationCatalogueUrlController = TextEditingController();
-  final catalogueMethodController = TextEditingController();
-  final catalogueChaptersController = TextEditingController();
-  final catalogueNameController = TextEditingController();
-  final catalogueUrlController = TextEditingController();
-  final catalogueUpdatedAtController = TextEditingController();
-  final cataloguePaginationController = TextEditingController();
-  final cataloguePaginationValidationController = TextEditingController();
-  final cataloguePresetController = TextEditingController();
-  final contentMethodController = TextEditingController();
-  final contentContentController = TextEditingController();
-  final contentPaginationController = TextEditingController();
-  final contentPaginationValidationController = TextEditingController();
-  final exploreJsonController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _initControllers();
-  }
-
-  @override
-  void didUpdateWidget(covariant SourceInputView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.source != oldWidget.source) {
-      _initControllers();
-    }
-  }
-
-  void _initControllers() {
-    idController.text = widget.source.id.toString();
-    nameController.text = widget.source.name;
-    urlController.text = widget.source.url;
-    enabledController.text = widget.source.enabled.toString();
-    exploreEnabledController.text = widget.source.exploreEnabled.toString();
-    typeController.text = widget.source.type;
-    commentController.text = widget.source.comment;
-    headerController.text = widget.source.header;
-    charsetController.text = widget.source.charset;
-    searchUrlController.text = widget.source.searchUrl;
-    searchMethodController.text = widget.source.searchMethod;
-    searchBooksController.text = widget.source.searchBooks;
-    searchNameController.text = widget.source.searchName;
-    searchAuthorController.text = widget.source.searchAuthor;
-    searchCategoryController.text = widget.source.searchCategory;
-    searchWordCountController.text = widget.source.searchWordCount;
-    searchIntroductionController.text = widget.source.searchIntroduction;
-    searchCoverController.text = widget.source.searchCover;
-    searchInformationUrlController.text = widget.source.searchInformationUrl;
-    searchLatestChapterController.text = widget.source.searchLatestChapter;
-    informationMethodController.text = widget.source.informationMethod;
-    informationNameController.text = widget.source.informationName;
-    informationAuthorController.text = widget.source.informationAuthor;
-    informationCategoryController.text = widget.source.informationCategory;
-    informationWordCountController.text = widget.source.informationWordCount;
-    informationLatestChapterController.text =
-        widget.source.informationLatestChapter;
-    informationIntroductionController.text =
-        widget.source.informationIntroduction;
-    informationCoverController.text = widget.source.informationCover;
-    informationCatalogueUrlController.text =
-        widget.source.informationCatalogueUrl;
-    catalogueMethodController.text = widget.source.catalogueMethod;
-    catalogueChaptersController.text = widget.source.catalogueChapters;
-    catalogueNameController.text = widget.source.catalogueName;
-    catalogueUrlController.text = widget.source.catalogueUrl;
-    catalogueUpdatedAtController.text = widget.source.catalogueUpdatedAt;
-    cataloguePaginationController.text = widget.source.cataloguePagination;
-    cataloguePaginationValidationController.text =
-        widget.source.cataloguePaginationValidation;
-    cataloguePresetController.text = widget.source.cataloguePreset;
-    contentMethodController.text = widget.source.contentMethod;
-    contentContentController.text = widget.source.contentContent;
-    contentPaginationController.text = widget.source.contentPagination;
-    contentPaginationValidationController.text =
-        widget.source.contentPaginationValidation;
-    exploreJsonController.text = widget.source.exploreJson;
-  }
-
-  @override
-  void dispose() {
-    idController.dispose();
-    nameController.dispose();
-    urlController.dispose();
-    enabledController.dispose();
-    exploreEnabledController.dispose();
-    typeController.dispose();
-    commentController.dispose();
-    headerController.dispose();
-    charsetController.dispose();
-    searchUrlController.dispose();
-    searchMethodController.dispose();
-    searchBooksController.dispose();
-    searchNameController.dispose();
-    searchAuthorController.dispose();
-    searchCategoryController.dispose();
-    searchWordCountController.dispose();
-    searchIntroductionController.dispose();
-    searchCoverController.dispose();
-    searchInformationUrlController.dispose();
-    searchLatestChapterController.dispose();
-    informationMethodController.dispose();
-    informationNameController.dispose();
-    informationAuthorController.dispose();
-    informationCategoryController.dispose();
-    informationWordCountController.dispose();
-    informationLatestChapterController.dispose();
-    informationIntroductionController.dispose();
-    informationCoverController.dispose();
-    informationCatalogueUrlController.dispose();
-    catalogueMethodController.dispose();
-    catalogueChaptersController.dispose();
-    catalogueNameController.dispose();
-    catalogueUrlController.dispose();
-    catalogueUpdatedAtController.dispose();
-    cataloguePaginationController.dispose();
-    cataloguePaginationValidationController.dispose();
-    cataloguePresetController.dispose();
-    contentMethodController.dispose();
-    contentContentController.dispose();
-    contentPaginationController.dispose();
-    contentPaginationValidationController.dispose();
-    exploreJsonController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -449,10 +377,10 @@ class _SourceInputViewState extends State<SourceInputView> {
     );
     var sourceView = Card(child: listView);
     var toolbar = ToolbarView(
-      onCreate: widget.onCreate,
-      onDebug: widget.onDebug,
+      onCreate: handleCreate(),
+      onDebug: handleDebug(),
       onStore: handleStore,
-      onDelete: widget.onDelete,
+      onDelete: handleDelete(),
     );
     return Column(children: [
       toolbar,
@@ -461,8 +389,23 @@ class _SourceInputViewState extends State<SourceInputView> {
     ]);
   }
 
+  Function()? handleCreate() {
+    if (source.id == 0) return null;
+    return onCreate;
+  }
+
+  Function()? handleDebug() {
+    if (source.id == 0) return null;
+    return onDebug;
+  }
+
+  Function()? handleDelete() {
+    if (source.id == 0) return null;
+    return onDelete;
+  }
+
   void handleStore() {
-    var updatedSource = widget.source.copyWith(
+    var updatedSource = source.copyWith(
       id: int.parse(idController.text),
       name: nameController.text,
       url: urlController.text,
@@ -507,6 +450,6 @@ class _SourceInputViewState extends State<SourceInputView> {
       contentPaginationValidation: contentPaginationValidationController.text,
       exploreJson: exploreJsonController.text,
     );
-    widget.onStore?.call(updatedSource);
+    onStore?.call(updatedSource);
   }
 }

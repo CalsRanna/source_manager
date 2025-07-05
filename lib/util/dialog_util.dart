@@ -27,4 +27,23 @@ class DialogUtil {
       },
     );
   }
+
+  void show(Widget child) {
+    showDialog(
+      context: globalKey.currentContext!,
+      builder: (context) => Dialog(child: child),
+    );
+  }
+
+  void loading() {
+    showDialog(
+      barrierDismissible: false,
+      context: globalKey.currentContext!,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  void dismiss() {
+    Navigator.of(globalKey.currentContext!).pop();
+  }
 }

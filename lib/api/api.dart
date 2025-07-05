@@ -2,14 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:source_manager/model/debug_result.dart';
 import 'package:source_manager/model/source.dart';
 
 class Api {
   String get baseUrl {
-    if (kDebugMode) return 'http://192.168.31.180:8080';
+    // if (kDebugMode) return 'http://192.168.31.180:8080';
     var uri = Uri.base;
     var host = uri.host;
-    var port = uri.port;
+    var port = kDebugMode ? 8080 : uri.port;
     return 'http://$host:$port';
   }
 
@@ -52,5 +53,21 @@ class Api {
       var data = jsonDecode(response.body);
       throw Exception('[${response.statusCode}] ${data['message']}');
     }
+  }
+
+  Future<DebugResult> debugSource(
+    int id, {
+    String type = 'search',
+    String? url,
+  }) async {
+    var uri = Uri.parse('$baseUrl/api/debugging');
+    var body = {'source_id': id, 'type': type};
+    if (url != null) body['url'] = url;
+    var response = await http.post(uri, body: jsonEncode(body));
+    var data = jsonDecode(response.body);
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw Exception('[${response.statusCode}] ${data['message']}');
+    }
+    return DebugResult.fromJson(data);
   }
 }

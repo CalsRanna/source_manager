@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:signals/signals_flutter.dart';
@@ -38,8 +40,52 @@ class _SourcePageState extends State<SourcePage> {
       child: Row(children: children),
     );
     var size = MediaQuery.of(context).size;
-    var drawer = Drawer(shape: BeveledRectangleBorder(), width: size.width / 3);
+    var debugResultView = Watch((_) => _buildDebugResultView());
+    var drawer = Drawer(
+      shape: BeveledRectangleBorder(),
+      width: size.width / 3,
+      child: debugResultView,
+    );
     return Scaffold(key: scaffoldKey, body: body, endDrawer: drawer);
+  }
+
+  Widget _buildDebugResultView() {
+    return ListView.separated(
+      itemCount: viewModel.results.value.length,
+      itemBuilder: (context, index) {
+        var result = viewModel.results.value[index];
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(result.title),
+            ),
+            ListTile(
+              onTap: () => viewModel.openDialog(result.html),
+              title: Text('HTML'),
+              subtitle: Text(
+                result.html.replaceAll('\n', '').trim(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            ListTile(
+              onTap: () => viewModel.openDialog(JsonEncoder.withIndent('  ')
+                  .convert(jsonDecode(result.json))),
+              title: Text('JSON'),
+              subtitle: Text(
+                result.json,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        );
+      },
+      padding: const EdgeInsets.all(16),
+      separatorBuilder: (context, index) => const SizedBox(height: 8),
+    );
   }
 
   @override
@@ -59,6 +105,53 @@ class _SourcePageState extends State<SourcePage> {
       onDelete: onDelete,
       onStore: (source) => viewModel.storeSource(context, source),
       source: viewModel.selectedSource.value,
+      idController: viewModel.idController,
+      nameController: viewModel.nameController,
+      urlController: viewModel.urlController,
+      enabledController: viewModel.enabledController,
+      exploreEnabledController: viewModel.exploreEnabledController,
+      typeController: viewModel.typeController,
+      commentController: viewModel.commentController,
+      headerController: viewModel.headerController,
+      charsetController: viewModel.charsetController,
+      searchUrlController: viewModel.searchUrlController,
+      searchMethodController: viewModel.searchMethodController,
+      searchBooksController: viewModel.searchBooksController,
+      searchNameController: viewModel.searchNameController,
+      searchAuthorController: viewModel.searchAuthorController,
+      searchCategoryController: viewModel.searchCategoryController,
+      searchWordCountController: viewModel.searchWordCountController,
+      searchIntroductionController: viewModel.searchIntroductionController,
+      searchCoverController: viewModel.searchCoverController,
+      searchInformationUrlController: viewModel.searchInformationUrlController,
+      searchLatestChapterController: viewModel.searchLatestChapterController,
+      informationMethodController: viewModel.informationMethodController,
+      informationNameController: viewModel.informationNameController,
+      informationAuthorController: viewModel.informationAuthorController,
+      informationCategoryController: viewModel.informationCategoryController,
+      informationWordCountController: viewModel.informationWordCountController,
+      informationLatestChapterController:
+          viewModel.informationLatestChapterController,
+      informationIntroductionController:
+          viewModel.informationIntroductionController,
+      informationCoverController: viewModel.informationCoverController,
+      informationCatalogueUrlController:
+          viewModel.informationCatalogueUrlController,
+      catalogueMethodController: viewModel.catalogueMethodController,
+      catalogueChaptersController: viewModel.catalogueChaptersController,
+      catalogueNameController: viewModel.catalogueNameController,
+      catalogueUrlController: viewModel.catalogueUrlController,
+      catalogueUpdatedAtController: viewModel.catalogueUpdatedAtController,
+      cataloguePaginationController: viewModel.cataloguePaginationController,
+      cataloguePaginationValidationController:
+          viewModel.cataloguePaginationValidationController,
+      cataloguePresetController: viewModel.cataloguePresetController,
+      contentMethodController: viewModel.contentMethodController,
+      contentContentController: viewModel.contentContentController,
+      contentPaginationController: viewModel.contentPaginationController,
+      contentPaginationValidationController:
+          viewModel.contentPaginationValidationController,
+      exploreJsonController: viewModel.exploreJsonController,
     );
   }
 
@@ -77,12 +170,14 @@ class _SourcePageState extends State<SourcePage> {
 
   Widget _itemBuilder(BuildContext context, int index) {
     var color = Theme.of(context).colorScheme.primaryContainer;
-    return ListTile(
-      onTap: () => viewModel.selectSource(index),
-      selected: index == viewModel.index.value,
-      selectedTileColor: color,
-      shape: StadiumBorder(),
-      title: Text(viewModel.sources.value[index].name),
+    return Watch(
+      (_) => ListTile(
+        onTap: () => viewModel.selectSource(index),
+        selected: index == viewModel.index.value,
+        selectedTileColor: color,
+        shape: StadiumBorder(),
+        title: Text(viewModel.sources.value[index].name),
+      ),
     );
   }
 }
